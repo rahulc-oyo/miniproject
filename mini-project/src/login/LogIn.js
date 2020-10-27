@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import './LogIn.css';
 import Greeting from './Greeting.js';
 
-function LogIn() {
+function LogIn(props) {
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
@@ -17,29 +18,18 @@ function LogIn() {
         if (userId === '' || password === '') {
             return alert('Both User Id and Password are required');
         }
-        // else if (userId === '') {
-        //     return alert('User Id is required');
-        // }
-        // else if (password === '') {
-        //     return alert('Password is required');
-        // }
         else {
-            // link
-            setUserId('');
-            setPassword('');
+            return props.history.push('/dashboard');
         }
     }
 
-    // const clickHandler = () => {
-    //     return 
-    // }
     return (
         <>
             <h1 className='h1'>{Greeting()}</h1>
             <form className='logIn' onSubmit={submitHandler}>
-                <input className='text' type='text' placeholder='Enter your User ID' onChange={userIdHandler} value={userId}></input>
-                <input className='text' type='password' placeholder='Enter your Password' onChange={passwordHandler} value={password}></input>
-                <button type='submit' id='logIn' className='btn'>Log In</button>
+                <input className='logInText' type='text' placeholder='Enter your User ID' onChange={userIdHandler} value={userId}></input>
+                <input className='logInText' type='password' placeholder='Enter your Password' onChange={passwordHandler} value={password}></input>
+                <button type='submit' className='btn'>Log In</button>
             </form>
         </>
     );

@@ -1,0 +1,20 @@
+.sidebar ul{
+    list-style: none;
+    padding: 0px;
+    display:flex;
+    flex-direction: column; 
+}
+.sidebar li{
+    padding: 0px 20px 10px 10px;
+}
+.sidebar a{
+    text-decoration: none;
+    color:black;
+    display: flex;
+    font-size: 20px;
+    padding: 20 20px;
+}
+.sidebar a:hover{
+    background-color: rgba(247, 78, 78, 0.747);
+    border-radius: 3px;
+}

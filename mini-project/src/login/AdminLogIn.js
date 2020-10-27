@@ -1,4 +1,5 @@
 import React from 'react';
+import './LogIn.css';
 import LogIn from './LogIn.js';
 
 function AdminLogIn(props) {
@@ -9,7 +10,8 @@ function AdminLogIn(props) {
                 {/* <div className='leftDiv'>
             <img className='img' src={shakeHands} alt='loading error'></img>
         </div> */}
-                <div className='rightDiv'><LogIn />
+                <div className='logInRightDiv'>
+                    <LogIn />
                     <div className='btns'>
                         <button className='btn' onClick={() =>{props.history.push('/')}}>Login as User</button>
                     </div>
