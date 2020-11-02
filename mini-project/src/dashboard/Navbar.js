@@ -6,12 +6,13 @@ import Department from './Department.js';
 import Company from './Company.js';
 import Account from './Account.js';
 import Settings from './Settings.js';
+import Admin from './Admin.js';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+function Navbar(props) {
 
   const [navMenu, SetNavMenu] = useState(false);
 
@@ -23,6 +24,10 @@ function Navbar() {
     SetContentName(contentNameFromSidebar);
   }
 
+  const logoutHandler = () =>{
+    sessionStorage.removeItem('user');
+    props.history.push('/');
+  }
   const contentHandler = (contentName) => {
     switch (contentName) {
       case 'projectContent':
@@ -35,6 +40,8 @@ function Navbar() {
         return <Account />;
       case 'settingsContent':
         return <Settings />;
+      case 'adminContent':
+        return <Admin />;
       default:
         return <Account />;
     }
@@ -49,15 +56,15 @@ function Navbar() {
           <h2>Dashboard</h2>
         </div>
         <div className='notifications'>
-          <NotificationsIcon />
+        <Link to='#'><NotificationsIcon/></Link>
         </div>
         <div className='profile'>
-          <AccountCircleIcon />
+        <Link to='#' onClick={logoutHandler}><ExitToAppIcon/></Link>
         </div>
       </div>
       <div className='sidebarAndContent'>
         <div className={navMenu ? 'sidebar active' : 'sidebar'}>
-          <Sidebar contentNameFunction={contentNameFunction} showSidebar={showSidebar}/>
+          <Sidebar contentNameFunction={contentNameFunction}/>
         </div>
         <div className='content'>
           {contentHandler(contentName)}

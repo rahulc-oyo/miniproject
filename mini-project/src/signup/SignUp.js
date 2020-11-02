@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './SignUp.css';
 
-const SignUp = () => {
+const SignUp = (props) => {
 
 
     const [firstname, setFirstname] = useState('');
@@ -25,19 +26,22 @@ const SignUp = () => {
     const confirmHandler = (event) => {
         setConfirm(event.target.value);
     };
-    const submitHandler = (event)=>{
-        
-    }
-    const handleChange = (event) => {
+    const submitHandler = (event) => {
         event.preventDefault();
         if (firstname === '' || lastname === '' || email === '' || password === '' || confirm === '')
             return alert('All the fields are required');
         else if (password !== confirm)
             return alert('Confirm Password did not match. Try again.')
-        else{
-            
+        else {
+            axios.post('https://oyo-project.herokuapp.com/user/sign-up', { first_name: firstname, last_name: lastname, email: email, password: password })
+                .then(response => {
+                    console.log(response);
+                    sessionStorage.setItem('user', JSON.stringify(response.data));
+                    props.history.push('/dashboard');
+                })
+                .catch(error => console.log(error.message))
         }
-    };
+    }
 
     return (
         <div className="mainDiv">
@@ -100,11 +104,11 @@ const SignUp = () => {
                         />
                     </div>
                     <div className='btns'>
-                        <button type='submit' className='btn' onClick={handleChange}>Sign Up</button>
+                        <button type='submit' className='btn'>Sign Up</button>
                     </div>
                 </form>
                 <div>
-                    <small style={{color:"black"}}>Already have an Account? <a href='/'>Sign in</a></small>
+                    <small style={{ color: "black" }}>Already have an Account? <a href='/'>Sign in</a></small>
                 </div>
             </div>
         </div>

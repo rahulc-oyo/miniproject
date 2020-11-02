@@ -28,6 +28,9 @@ function Sidebar(props) {
                 <li className='account'>
                     <Link to='#' onClick={() => props.contentNameFunction('accountContent')}><AccountBoxIcon/><span>Account</span></Link>
                 </li>
+                <li className='admin'>
+                    <Link to='#' onClick={() => props.contentNameFunction('adminContent')}><AccountBoxIcon/><span>Admin</span></Link>
+                </li>
                 <li className='settings'>
                     <Link to='#' onClick={() => props.contentNameFunction('settingsContent')}><SettingsIcon/><span>Settings</span></Link>
                 </li>
