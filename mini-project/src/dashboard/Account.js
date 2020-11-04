@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './Account.css';
 import axios from 'axios';
+import FileUpload from './FileUpload.js';
+import AddAPhotoOutlinedIcon from '@material-ui/icons/AddAPhotoOutlined';
 
-function Account1(props) {
+function Account() {
 
     let user = JSON.parse(sessionStorage.getItem('user'));
 
@@ -19,7 +21,7 @@ function Account1(props) {
         setGender(event.target.value);
     };
     const aadhaarNumberHandler = (event) => {
-    setAadhaarNumber(event.target.value);
+        setAadhaarNumber(event.target.value);
     };
     const panNumberHandler = (event) => {
         setPanNumber(event.target.value)
@@ -50,7 +52,7 @@ function Account1(props) {
                 .then(response => {
                     console.log(response);
                     sessionStorage.setItem('user', JSON.stringify(response.data));
-                    props.history.push('/dashboard');
+                    window.location.reload(false);
                 })
                 .catch(error => console.log(error.message))
         }
@@ -60,11 +62,11 @@ function Account1(props) {
         if (mobileNumber === user.phone && address === user.address)
             return alert('Nothing is updated');
         else {
-            axios.put('https://oyo-project.herokuapp.com/user/update-user', { phone: mobileNumber, address: address })
+            axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, phone: mobileNumber, address: address })
                 .then(response => {
                     console.log(response);
                     sessionStorage.setItem('user', JSON.stringify(response.data));
-                    props.history.push('/dashboard');
+                    window.location.reload(false);
                 })
                 .catch(error => console.log(error.message))
         }
@@ -74,147 +76,143 @@ function Account1(props) {
         if (bankAccountNumber === user.bank_account_number && bankName === user.bank_name && bankIfscCode === user.bank_ifsc_code)
             return alert('Nothing is updated');
         else {
-            axios.put('https://oyo-project.herokuapp.com/user/update-user', { bank_account_number: bankAccountNumber, bank_name: bankName, bank_ifsc_code: bankIfscCode })
+            axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, bank_account_number: bankAccountNumber, bank_name: bankName, bank_ifsc_code: bankIfscCode })
                 .then(response => {
                     console.log(response);
                     sessionStorage.setItem('user', JSON.stringify(response.data));
-                    props.history.push('/dashboard');
+                    window.location.reload(false);
                 })
                 .catch(error => console.log(error.message))
         }
     }
 
+    const [imageUpload, setImageUpload] = useState(false);
+
+    const showImageUpload = () => setImageUpload(!imageUpload);
+
     return (
         <>
             <div className='accountPage'>
-                <form className='personalInformation' onSubmit={submitHandler1}>
-                    <h3 className='h3'>Personal Information</h3>
-                    <div>
-                        <label className='label'>First Name</label>
-                        <input
-                            className='text'
-                            type='text'
-                            placeholder='First Name'
-                            value={user.first_name}
-                        />
+                <div className='userInformation'>
+                    <form className='personalInformation' onSubmit={submitHandler1}>
+                        <h3 className='h3'>Personal Information</h3>
+                        <div>
+                            <label className='label'>Gender</label>
+                            <select value={gender} onChange={genderHandler} className='text'>
+                                <option>Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className='label'>Aadhaar Number</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='Aadhaar Number'
+                                value={aadhaarNumber}
+                                onChange={aadhaarNumberHandler}
+                            />
+                        </div>
+                        <div>
+                            <label className='label'>PAN Number</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='PAN Number'
+                                value={panNumber}
+                                onChange={panNumberHandler}
+                            />
+                        </div>
+                        <div className='btns'>
+                            <button type='submit' className='btn'>Save</button>
+                        </div>
+                    </form>
+                    <form className='contactInformation' onSubmit={submitHandler2}>
+                        <h3 className='h3'>Contact Information</h3>
+                        <div>
+                            <label className='label'>Mobile Number</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='Mobile Number'
+                                value={mobileNumber}
+                                onChange={mobileNumberHandler}
+                            />
+                        </div>
+                        <div>
+                            <label className='label'>Address</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='Address'
+                                value={address}
+                                onChange={addressHandler}
+                            />
+                        </div>
+                        <div className='btns'>
+                            <button type='submit' className='btn'>Save</button>
+                        </div>
+                    </form>
+                    <form className='bankAccountInformation' onSubmit={submitHandler3}>
+                        <h3 className='h3'>Bank Account Information</h3>
+                        <div>
+                            <label className='label'>Account Number</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='Account Number'
+                                value={bankAccountNumber}
+                                onChange={bankAccountNumberHandler}
+                            />
+                        </div>
+                        <div>
+                            <label className='label'>Name of the Bank</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='Name of the Bank'
+                                value={bankName}
+                                onChange={bankNameHandler}
+                            />
+                        </div>
+                        <div>
+                            <label className='label'>IFSC Code</label>
+                            <input
+                                className='text'
+                                type='text'
+                                placeholder='IFSC Code'
+                                value={bankIfscCode}
+                                onChange={bankIfscCodeHandler}
+                            />
+                        </div>
+                        <div className='btns'>
+                            <button type='submit' className='btn'>Save</button>
+                        </div>
+                    </form>
+                </div>
+                <div className='userProfile'>
+                    <img src={`data:image/jpeg;base64, ${user.image}`} alt='Profile Picture' className='userImage' />
+                    <button onClick={showImageUpload}><AddAPhotoOutlinedIcon/></button>
+                    <div className={imageUpload ? 'userImageUpload active' : 'userImageUpload'}>
+                        <FileUpload data= "image" url="https://oyo-project.herokuapp.com/user/upload" showUpload= {showImageUpload}/>
                     </div>
-                    <div>
-                        <label className='label'>Last Name</label>
-                        <input
-                            className='text'
-                            type='text'
-                            placeholder='Last Name'
-                            value={user.last_name}
-                        />
+                    <div className='userName'>
+                        <div className='userFirstName'>
+                            {user.first_name}
+                        </div>
+                        <div className='userLastName'>
+                            {user.last_name}
+                        </div>
                     </div>
-                    <div>
-                        <label className='label'>Gender</label>
-                        <select value ={gender} onChange={genderHandler} className='text'>
-                            <option>Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="others">Others</option>
-                        </select>
+                    <div className='userEmail'>
+                        {user.email}
                     </div>
-                <div>
-                    <label className='label'>Email</label>
-                    <input
-                        className='text'
-                        type='email'
-                        placeholder='abc@xyz.com'
-                        value={user.email}
-                    />
                 </div>
-                <div>
-                    <label className='label'>Aadhaar Number</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='Aadhaar Number'
-                        value={aadhaarNumber}
-                        onChange={aadhaarNumberHandler}
-                    />
-                </div>
-                <div>
-                    <label className='label'>PAN Number</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='PAN Number'
-                        value={panNumber}
-                        onChange={panNumberHandler}
-                    />
-                </div>
-                <div className='btns'>
-                    <button type='submit' className='btn'>Save</button>
-                </div>
-                </form>
-            <form className='contactInformation' onSubmit={submitHandler2}>
-                <h3 className='h3'>Contact Information</h3>
-                <div>
-                    <label className='label'>Mobile Number</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='Mobile Number'
-                        value={mobileNumber}
-                        onChange={mobileNumberHandler}
-                    />
-                </div>
-                <div>
-                    <label className='label'>Address</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='Address'
-                        value={address}
-                        onChange={addressHandler}
-                    />
-                </div>
-                <div className='btns'>
-                    <button type='submit' className='btn'>Save</button>
-                </div>
-            </form>
-            <form className='bankAccountInformation' onSubmit={submitHandler3}>
-                <h3 className='h3'>Bank Account Information</h3>
-                <div>
-                    <label className='label'>Account Number</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='Account Number'
-                        value={bankAccountNumber}
-                        onChange={bankAccountNumberHandler}
-                    />
-                </div>
-                <div>
-                    <label className='label'>Name of the Bank</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='Name of the Bank'
-                        value={bankName}
-                        onChange={bankNameHandler}
-                    />
-                </div>
-                <div>
-                    <label className='label'>IFSC Code</label>
-                    <input
-                        className='text'
-                        type='text'
-                        placeholder='IFSC Code'
-                        value={bankIfscCode}
-                        onChange={bankIfscCodeHandler}
-                    />
-                </div>
-                <div className='btns'>
-                    <button type='submit' className='btn'>Save</button>
-                </div>
-            </form>
-
-        </div>
+            </div>
         </>
     )
 }
 
-export default Account1;
+export default Account;
