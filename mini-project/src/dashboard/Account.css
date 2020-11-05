@@ -1,27 +1,29 @@
-.h3{
- padding: 5px;
- margin: 5px;
-}
 .accountPage{
     display: flex;
-    width: 100%;
-    justify-content: space-around;
+    width: 100%; 
 }
 .userInformation{
     display: flex;
-    width: 65%;
+    width: 70%;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    background-color: white;
 }
 .personalInformation, .contactInformation, .bankAccountInformation{
-    margin-top: 5px;
+    margin: 5px;
     display:flex;
     flex-direction: column;
     width: 80%;
-    background-color: teal;
+    background-color: rgb(214, 221, 221);
+    border-radius: 5px;
+    box-shadow: 2px beige;
     /* align-items: center; */
     /* justify-content: center; */
+}
+.h3{
+    display: flex;
+    justify-content: center;
 }
 .label, .text{
     display: flex;
@@ -37,19 +39,21 @@
 }
 .userProfile{
     display: flex;
-    width: 35%;
+    width: 30%;
+    height: 25%;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    border-left: 2px solid black;
-    background-color: azure;
+    background-color: rgb(214, 221, 221);
+    border-radius: 5px;
+    padding: 5px 2px;
+    margin: 2px 2px;
 }
 .userImage{
     display: flex;
-    width: 150px;
-    height: 150px;
-    border-radius: 150px;
-    /* border-style: ridge; */
+    width: 180px;
+    height: 180px;
+    border-radius: 180px;
 }
 .userImageUpload{
     display: flex;
@@ -57,11 +61,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* margin-right: 200px; */
-    width: 400px;
-    height: 200px;
-    z-index: -100;
-    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    right:0;
+    z-index: -10;
+    background-color: rgba(77, 77, 77, 0.836);
 }
 .userImageUpload.active{
     z-index: 100;

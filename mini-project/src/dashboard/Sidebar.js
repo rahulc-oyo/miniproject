@@ -10,7 +10,7 @@ function Sidebar(props) {
 
     return (
         <>
-            <ul>
+            <ul> 
                 <li className='work'>
                     <Link to='#'><WorkIcon/><span>Work</span></Link>
                     <ul>

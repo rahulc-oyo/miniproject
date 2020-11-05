@@ -13,9 +13,6 @@ function FileUpload(props) {
         setFile(event.target.files[0]);
     }
 
-    // console.log(data);
-    // console.log(url);
-
     const submitHandler = (event) => {
         event.preventDefault();
         const formdata = new FormData();
@@ -31,12 +28,14 @@ function FileUpload(props) {
     }
 
     return (
-        <>
-                <button onClick= {props.showUpload}><CancelIcon/></button>
-                <form onSubmit={submitHandler}>
-                    <input className='selector' type='file' onChange={fileHandler} />
-                    <button className='uploadButton' type='submit'>Upload</button>
-                </form>
+        <>  
+            <div className='fileUpload'>
+            <button className='cancel'onClick={props.showUpload}><CancelIcon /></button>
+            <form className='uploadForm' onSubmit={submitHandler}>
+                <input className='selector' type='file' onChange={fileHandler} />
+                <button className='uploadButton' type='submit'>Upload</button>
+            </form>
+            </div>
         </>
     )
 }

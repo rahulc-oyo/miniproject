@@ -92,7 +92,7 @@ function Account() {
 
     return (
         <>
-            <div className='accountPage'>
+            <div className='accountPage'> 
                 <div className='userInformation'>
                     <form className='personalInformation' onSubmit={submitHandler1}>
                         <h3 className='h3'>Personal Information</h3>
