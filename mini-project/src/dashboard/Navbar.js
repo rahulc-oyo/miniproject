@@ -55,7 +55,7 @@ function Navbar(props) {
         <div className='pagename'>
           <h2>Dashboard</h2>
         </div>
-        <div className='notifications'>
+        <div className='notifications'> 
         <Link to='#'><NotificationsIcon/></Link>
         </div>
         <div className='profile'>
@@ -64,7 +64,7 @@ function Navbar(props) {
       </div>
       <div className='sidebarAndContent'>
         <div className={navMenu ? 'sidebar active' : 'sidebar'}>
-          <Sidebar contentNameFunction={contentNameFunction}/>
+          <Sidebar contentNameFunction={contentNameFunction} showSidebar ={showSidebar}/>
         </div>
         <div className='content'>
           {contentHandler(contentName)}

@@ -15,24 +15,24 @@ function Sidebar(props) {
                     <Link to='#'><WorkIcon/><span>Work</span></Link>
                     <ul>
                         <li>
-                            <Link to='#' onClick={() => props.contentNameFunction('projectContent')}><KeyboardArrowRightIcon/><span>Project</span></Link>
+                            <Link to='#' onClick={() => {props.contentNameFunction('projectContent'); props.showSidebar()}}><KeyboardArrowRightIcon/><span>Project</span></Link>
                         </li>
                         <li>
-                            <Link to='#' onClick={() => props.contentNameFunction('departmentContent')}><KeyboardArrowRightIcon/><span>Department</span></Link>
+                            <Link to='#' onClick={() => {props.contentNameFunction('departmentContent'); props.showSidebar()}}><KeyboardArrowRightIcon/><span>Department</span></Link>
                         </li>
                         <li>
-                            <Link to='#' onClick={() => props.contentNameFunction('companyContent')}><KeyboardArrowRightIcon/><span>Company</span></Link>
+                            <Link to='#' onClick={() => {props.contentNameFunction('companyContent'); props.showSidebar()}}><KeyboardArrowRightIcon/><span>Company</span></Link>
                         </li>
                     </ul>
                 </li>
                 <li className='account'>
-                    <Link to='#' onClick={() => props.contentNameFunction('accountContent')}><AccountBoxIcon/><span>Account</span></Link>
+                    <Link to='#' onClick={() => {props.contentNameFunction('accountContent'); props.showSidebar()}}><AccountBoxIcon/><span>Account</span></Link>
                 </li>
                 <li className='admin'>
-                    <Link to='#' onClick={() => props.contentNameFunction('adminContent')}><AccountBoxIcon/><span>Admin</span></Link>
+                    <Link to='#' onClick={() => {props.contentNameFunction('adminContent'); props.showSidebar()}}><AccountBoxIcon/><span>Admin</span></Link>
                 </li>
                 <li className='settings'>
-                    <Link to='#' onClick={() => props.contentNameFunction('settingsContent')}><SettingsIcon/><span>Settings</span></Link>
+                    <Link to='#' onClick={() => {props.contentNameFunction('settingsContent'); props.showSidebar()}}><SettingsIcon/><span>Settings</span></Link>
                 </li>
             </ul>
         </>

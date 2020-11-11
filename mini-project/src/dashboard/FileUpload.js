@@ -20,7 +20,6 @@ function FileUpload(props) {
         formdata.append("user_id", user.user_id);
         axios.put(props.url, formdata)
             .then(response => {
-                console.log(response);
                 sessionStorage.setItem('user', JSON.stringify(response.data));
                 window.location.reload(false);
             })

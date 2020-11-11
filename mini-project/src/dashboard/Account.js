@@ -12,7 +12,10 @@ function Account() {
     const [aadhaarNumber, setAadhaarNumber] = useState(user.aadhar_number);
     const [panNumber, setPanNumber] = useState(user.pan_number);
     const [mobileNumber, setMobileNumber] = useState(user.phone);
-    const [address, setAddress] = useState(user.address);
+    const [address, setAddress] = useState(user.street);
+    const [country, setCountry] = useState(user.country);
+    const [state, setState] = useState(user.state);
+    const [city, setCity] = useState(user.city);
     const [bankAccountNumber, setBankAccountNumber] = useState(user.bank_account_number);
     const [bankName, setBankName] = useState(user.bank_name);
     const [bankIfscCode, setBankIfscCode] = useState(user.bank_ifsc_code);
@@ -32,6 +35,15 @@ function Account() {
     const addressHandler = (event) => {
         setAddress(event.target.value);
     };
+    const countryHandler = (event) => {
+        setCountry(event.target.value);
+    };
+    const stateHandler = (event) => {
+        setState(event.target.value);
+    };
+    const cityHandler = (event) => {
+        setCity(event.target.value);
+    };
     const bankAccountNumberHandler = (event) => {
         setBankAccountNumber(event.target.value);
     };
@@ -43,14 +55,13 @@ function Account() {
     };
     const submitHandler1 = (event) => {
         event.preventDefault();
-        if (aadhaarNumber === user.aadhar_number && panNumber === user.pan_number)
+        if (gender === user.gender && aadhaarNumber === user.aadhar_number && panNumber === user.pan_number)
             return alert('Nothing is updated');
         // else if (aadhaarNumber1 === 'null' || panNumber1 === 'null')
         //     return alert('Please fill all details');
         else {
-            axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, aadhar_number: aadhaarNumber, pan_number: panNumber })
+            axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, gender: gender, aadhar_number: aadhaarNumber, pan_number: panNumber })
                 .then(response => {
-                    console.log(response);
                     sessionStorage.setItem('user', JSON.stringify(response.data));
                     window.location.reload(false);
                 })
@@ -62,9 +73,8 @@ function Account() {
         if (mobileNumber === user.phone && address === user.address)
             return alert('Nothing is updated');
         else {
-            axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, phone: mobileNumber, address: address })
+            axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, phone: mobileNumber, street: address, country: country, state: state, city: city })
                 .then(response => {
-                    console.log(response);
                     sessionStorage.setItem('user', JSON.stringify(response.data));
                     window.location.reload(false);
                 })
@@ -78,7 +88,6 @@ function Account() {
         else {
             axios.put('https://oyo-project.herokuapp.com/user/update-user', { user_id: user.user_id, bank_account_number: bankAccountNumber, bank_name: bankName, bank_ifsc_code: bankIfscCode })
                 .then(response => {
-                    console.log(response);
                     sessionStorage.setItem('user', JSON.stringify(response.data));
                     window.location.reload(false);
                 })
@@ -87,19 +96,56 @@ function Account() {
     }
 
     const [imageUpload, setImageUpload] = useState(false);
-
     const showImageUpload = () => setImageUpload(!imageUpload);
+
+    const [countries, setCountries] = useState([]);
+    axios.get('https://oyo-project.herokuapp.com/location/countries')
+        .then(response => {
+            setCountries(response.data);
+        })
+        .catch(error => console.log(error))
+
+    const countriesList = countries.map(country => <option key={country.country_id} value={country.country_name}>{country.country_name}</option>);
+
+    const [countryId, setCountryId] = useState();
+    const countryIdHandler = (event) => {
+        setCountryId(event.target.key);
+    }
+    const [states, setStates] = useState([]);
+    // if (countryId) {
+        axios.get(`https://oyo-project.herokuapp.com/location/states?country_id=${countryId}`)
+            .then(response => {
+                setStates(response.data);
+            })
+            .catch(error => console.log(error))
+    // }
+    const statesList = states.map(state => <option key={state.state_id} value={state.state_name}>{state.state_name}</option>);
+
+    const [stateId, setStateId] = useState();
+    const stateIdHandler = (event) => {
+        setStateId(event.target.key);
+    }
+    const [cities, setCities] = useState([]);
+    // if (stateId) {
+        axios.get(`https://oyo-project.herokuapp.com/location/cities/state_id=${stateId}`)
+            .then(response => {
+                setCities(response.data);
+            })
+            .catch(error => console.log(error))
+    // }
+    const citiesList = cities.map(city => <option key={city.city_id} value={city.city_name}>{city.city_name}</option>);
+
 
     return (
         <>
-            <div className='accountPage'> 
+            <div className='accountPage'>
                 <div className='userInformation'>
                     <form className='personalInformation' onSubmit={submitHandler1}>
                         <h3 className='h3'>Personal Information</h3>
                         <div>
                             <label className='label'>Gender</label>
                             <select value={gender} onChange={genderHandler} className='text'>
-                                <option>Select gender</option>
+                                <option value="null">Select gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="others">Others</option>
@@ -151,6 +197,29 @@ function Account() {
                                 onChange={addressHandler}
                             />
                         </div>
+                        <div className='region'>
+                            <div>
+                                <label className='regionLabel'>Country</label>
+                                <select value={country} onChange={(event) => { countryHandler(event); countryIdHandler(event) }} className='regionText'>
+                                    <option value="null">Select your Country</option>
+                                    {countriesList}
+                                </select>
+                            </div>
+                            <div>
+                                <label className='regionLabel'>State</label>
+                                <select value={state} onChange={() => { stateHandler(); stateIdHandler() }} className='regionText'>
+                                    <option value="null">Select your State</option>
+                                    {statesList}
+                                </select>
+                            </div>
+                            <div>
+                                <label className='regionLabel'>City</label>
+                                <select value={city} onChange={cityHandler} className='regionText'>
+                                    <option value="null">Select your City</option>
+                                    {citiesList}
+                                </select>
+                            </div>
+                        </div>
                         <div className='btns'>
                             <button type='submit' className='btn'>Save</button>
                         </div>
@@ -194,9 +263,9 @@ function Account() {
                 </div>
                 <div className='userProfile'>
                     <img src={`data:image/jpeg;base64, ${user.image}`} alt='Profile Picture' className='userImage' />
-                    <button onClick={showImageUpload}><AddAPhotoOutlinedIcon/></button>
+                    <button onClick={showImageUpload}><AddAPhotoOutlinedIcon /></button>
                     <div className={imageUpload ? 'userImageUpload active' : 'userImageUpload'}>
-                        <FileUpload data= "image" url="https://oyo-project.herokuapp.com/user/upload" showUpload= {showImageUpload}/>
+                        <FileUpload data="image" url="https://oyo-project.herokuapp.com/user/upload" showUpload={showImageUpload} />
                     </div>
                     <div className='userName'>
                         <div className='userFirstName'>

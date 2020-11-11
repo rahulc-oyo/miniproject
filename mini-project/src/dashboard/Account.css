@@ -37,6 +37,15 @@
     padding: 5px;
     margin:5px;
 }
+.region{
+    display: flex;
+    justify-content: flex-start;
+}
+.regionLabel, .regionText{
+    display: flex;
+    padding: 5px 10px;
+    margin: 5px 10px;
+}
 .userProfile{
     display: flex;
     width: 30%;
